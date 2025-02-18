@@ -83,7 +83,7 @@ def water(moisture_levels):
   for i in range(0, 3):
     if moisture_levels[i] < targets[i]:
       # determine a duration to run the pump for
-      duration = round((targets[i] - moisture_levels[i]) / 25, 1)
+      duration = 3 + round((targets[i] - moisture_levels[i]) / 10, 1)
 
       logging.info(f"> sensor {CHANNEL_NAMES[i]} below moisture target {targets[i]} (currently at {int(moisture_levels[i])}).")
 
