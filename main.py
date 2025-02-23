@@ -106,13 +106,28 @@ try:
   small_increment = 1
   edit_loop = 45
   while edit_loop>0:
+    trackball.set_rgbw(0,0,0,127)
     edit_loop-=1
     up, down, left, right, switch, state = trackball.read()
-    print("r:    {:02d}\tu:    {:02d}\td:    {:02d}\tl:     {:02d}\tswi:{:03d}\tsta:{}".format(right, up, down, left, switch, state))
+    #trackball.set_rgbw(127,127,0,0)
+    #print("r:    {:02d}\tu:    {:02d}\td:    {:02d}\tl:     {:02d}\tswi:{:03d}\tsta:{}".format(right, up, down, left, switch, state))
+    #trackball.set_rgbw(127,0,127,0)
     oled3.fill(0)
     Writer.set_textpos(oled3, 0 , 0)
     textWri.printstring(" LAST TGT \nA {:3}{:1}{:3}\n\nB {:3}{:1}{:3}\n\nC {:3}{:1}{:3}".format(reading.get("moisture_a"), mode_a, config.moisture_target_a,reading.get("moisture_b"), mode_b, config.moisture_target_b, reading.get("moisture_c"), mode_c, config.moisture_target_c))
+    #textWri.printstring("1")
+    trackball.set_rgbw(255,0,255,0)
+
+    if edit_loop < 16:
+        if edit_loop %2 == 1:
+            oled3.invert(True)
+            trackball.set_rgbw(0,0,0,255)
+    #        oled3.contrast(0x3f)
+        else:
+            oled3.invert(False)
+    #        oled3.contrast(0x7f)
     oled3.show()
+    trackball.set_rgbw(255,255,0,0)
     if state and not was_clicked:
         # clearing up/down so doesn't move/incrememt with click
         up = 0
@@ -138,7 +153,7 @@ try:
         was_clicked = True
     elif not state and was_clicked:
         was_clicked = False
-
+    
     if up > ignore:
         if mode_a == select:
             mode_c = select
@@ -205,6 +220,7 @@ try:
 
             if config.moisture_target_c <0:
                 config.moisture_target_c = 0
+
     #sleep(0.1)
   trackball.set_rgbw(0,0,255,0)
 
